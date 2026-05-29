@@ -1,0 +1,309 @@
+# AURA — Sistema Experto Multiagente para Diagnóstico Inteligente de Redes Acústicas ESP32
+
+## Descripción del Proyecto
+
+AURA es un sistema experto moderno basado en agentes inteligentes capaces de interactuar con usuarios, realizar inferencias y automatizar procesos de diagnóstico y soporte técnico utilizando Inteligencia Artificial.
+
+El sistema está diseñado para analizar eventos provenientes de una red de agentes acústicos ESP32 comunicados mediante MQTT, permitiendo detectar fallas, generar diagnósticos automáticos y explicar el razonamiento utilizado por el sistema.
+
+El proyecto integra:
+
+* Ingeniería del conocimiento
+* Sistemas expertos
+* Motores de inferencia
+* Bases de datos
+* Agentes inteligentes
+* IA moderna
+* Explicabilidad del razonamiento
+* Arquitectura cliente-servidor local
+
+---
+
+# Objetivo
+
+Desarrollar un sistema experto multiagente capaz de:
+
+* Interpretar mensajes de usuarios o dispositivos
+* Detectar problemas automáticamente
+* Aplicar reglas de inferencia
+* Generar diagnósticos inteligentes
+* Explicar decisiones tomadas por la IA
+* Almacenar información en una base de datos
+* Facilitar monitoreo y soporte técnico
+
+---
+
+# Arquitectura General
+
+```text
+Usuario / ESP32
+        ↓
+Frontend Web (Streamlit)
+        ↓
+Backend API (FastAPI)
+        ↓
+Sistema Multiagente
+ ├── Agente Atención
+ ├── Agente Inferencia
+ ├── Agente Supervisor
+ └── Agente Base de Datos
+        ↓
+SQLite
+        ↓
+MQTT Broker
+```
+
+---
+
+# Agentes Inteligentes
+
+## Agente 1 — Atención al Cliente
+
+Funciones:
+
+* Interpretar mensajes
+* Detectar intención
+* Extraer información relevante
+* Clasificar solicitudes
+
+Ejemplo:
+
+Entrada:
+
+```text
+“El nodo 3 presenta pérdida de sincronía.”
+```
+
+Salida:
+
+```json
+{
+  "nodo": 3,
+  "problema": "sincronizacion",
+  "prioridad": "media"
+}
+```
+
+---
+
+## Agente 2 — Motor de Inferencia
+
+Funciones:
+
+* Aplicar reglas expertas
+* Validar información
+* Generar inferencias
+* Consultar base de datos
+
+Ejemplo de reglas:
+
+```python
+IF tof > limite:
+    diagnostico = "distancia excesiva"
+
+IF bateria < 20:
+    sugerencia = "recargar nodo"
+
+IF nodo_sin_respuesta > 5:
+    estado = "desconectado"
+```
+
+---
+
+## Agente 3 — Supervisor / Explicador
+
+Funciones:
+
+* Explicar decisiones tomadas
+* Generar reportes
+* Mostrar inferencias activadas
+* Validar resultados
+
+Ejemplo:
+
+```text
+Se detectó pérdida de sincronía en el nodo 3.
+El tiempo ToF excede el rango permitido.
+Se recomienda recalibración acústica.
+```
+
+---
+
+# Tecnologías Utilizadas
+
+| Tecnología | Uso                     |
+| ---------- | ----------------------- |
+| Python     | Desarrollo principal    |
+| FastAPI    | Backend                 |
+| Streamlit  | Interfaz gráfica        |
+| SQLite     | Base de datos           |
+| MQTT       | Comunicación            |
+| Ollama     | IA local                |
+| LangChain  | Procesamiento IA        |
+| CrewAI     | Orquestación de agentes |
+| GitHub     | Control de versiones    |
+
+---
+
+# Base de Datos
+
+Tablas principales:
+
+## usuarios
+
+* id
+* nombre
+* tipo
+
+## nodos
+
+* id
+* estado
+* bateria
+* ultima_respuesta
+
+## eventos
+
+* id
+* descripcion
+* fecha
+
+## inferencias
+
+* id
+* regla
+* resultado
+* timestamp
+
+---
+
+# Requisitos
+
+* Python 3.11+
+* Ollama instalado
+* Broker MQTT
+* Git
+
+---
+
+# Instalación
+
+## 1. Clonar repositorio
+
+```bash
+git clone https://github.com/TU_USUARIO/aura-expert-system.git
+```
+
+## 2. Entrar al proyecto
+
+```bash
+cd aura-expert-system
+```
+
+## 3. Crear entorno virtual
+
+### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### Linux/Mac
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+## 4. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Ejecución
+
+## Iniciar Backend
+
+```bash
+uvicorn backend.main:app --reload
+```
+
+---
+
+## Iniciar Frontend
+
+```bash
+streamlit run frontend/app.py
+```
+
+---
+
+# Características del Sistema
+
+* Sistema multiagente
+* Inferencias explicables
+* IA local
+* Diagnóstico automático
+* Integración MQTT
+* Base de datos local
+* Interfaz web
+* Arquitectura modular
+
+---
+
+# Ejemplo de Flujo
+
+```text
+Usuario reporta problema
+        ↓
+Agente Atención interpreta mensaje
+        ↓
+Motor de Inferencia aplica reglas
+        ↓
+Base de datos almacena evento
+        ↓
+Supervisor genera explicación
+        ↓
+Respuesta final al usuario
+```
+
+---
+
+# Estado Actual del Proyecto
+
+## Fase actual:
+
+* [x] Planeación
+* [ ] Backend FastAPI
+* [ ] Base de datos
+* [ ] Sistema multiagente
+* [ ] Interfaz Streamlit
+* [ ] Integración MQTT
+* [ ] IA local con Ollama
+* [ ] Explicabilidad
+* [ ] Video demostrativo
+
+---
+
+# Evidencia de Desarrollo
+
+El desarrollo se realiza mediante commits diarios en GitHub como parte de la evidencia requerida por el proyecto académico.
+
+---
+
+# Autor
+
+Luis González
+Ingeniería Mecatrónica
+
+---
+
+# Licencia
+
+Proyecto académico — Uso educativo.
