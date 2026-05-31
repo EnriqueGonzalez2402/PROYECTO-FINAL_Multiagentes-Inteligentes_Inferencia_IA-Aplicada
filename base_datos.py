@@ -1,0 +1,2 @@
+#almacenar datos
+S
