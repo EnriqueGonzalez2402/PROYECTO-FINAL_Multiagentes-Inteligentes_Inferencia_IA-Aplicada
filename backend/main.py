@@ -12,3 +12,4 @@ return {
 "status": "online",
 "system": "AURA"
 }
+"agregamos las rutas de los módulos"
