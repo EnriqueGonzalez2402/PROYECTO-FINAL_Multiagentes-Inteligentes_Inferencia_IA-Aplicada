@@ -1,7 +1,6 @@
 import sqlite3
 
-DB_NAME = "database/aura.db"
+DB_NAME = "aura.db"
 
 def get_connection():
-    conn = sqlite3.connect(DB_NAME)
-    return conn
+    return sqlite3.connect(DB_NAME)

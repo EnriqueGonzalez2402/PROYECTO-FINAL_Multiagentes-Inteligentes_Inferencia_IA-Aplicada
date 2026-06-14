@@ -1,9 +1,8 @@
-from db import get_connection
+import sqlite3
 
-conn = get_connection()
+conn = sqlite3.connect("aura.db")
+
 cursor = conn.cursor()
-
-# Configuración
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS configuracion(
@@ -14,8 +13,6 @@ CREATE TABLE IF NOT EXISTS configuracion(
 )
 """)
 
-# Nodos
-
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS nodos(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,8 +21,6 @@ CREATE TABLE IF NOT EXISTS nodos(
     ultima_conexion TEXT
 )
 """)
-
-# Mediciones
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS mediciones(
@@ -38,8 +33,6 @@ CREATE TABLE IF NOT EXISTS mediciones(
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """)
-
-# Inferencias
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS inferencias(
@@ -54,4 +47,4 @@ CREATE TABLE IF NOT EXISTS inferencias(
 conn.commit()
 conn.close()
 
-print("Base de datos creada")
+print("Base de datos creada correctamente")
