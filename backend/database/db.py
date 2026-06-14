@@ -54,8 +54,58 @@ def get_configuration():
         LIMIT 1
     """)
 
-    row = cursor.fetchone()
+# -----------------------------
+# Guardar evento en historial
+# -----------------------------
+def save_history(
+    agente,
+    evento,
+    resultado
+):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO historial
+        (
+            agente,
+            evento,
+            resultado
+        )
+        VALUES (?, ?, ?)
+    """,
+    (
+        agente,
+        evento,
+        resultado
+    ))
+
+    conn.commit()
+    conn.close()
+
+# -----------------------------
+# Obtener historial
+# -----------------------------
+def get_history():
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT
+            fecha,
+            agente,
+            evento,
+            resultado
+        FROM historial
+        ORDER BY id DESC
+        LIMIT 20
+    """)
+
+    rows = cursor.fetchall()
 
     conn.close()
 
-    return row
+    return rows
+

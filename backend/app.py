@@ -1,8 +1,11 @@
 import streamlit as st
+import pandas as pd
 
 from database.db import (
     save_configuration,
-    get_configuration
+    get_configuration,
+    save_history,
+    get_history
 )
 # -----------------------------------
 # Configuración de la página
@@ -66,6 +69,12 @@ if st.sidebar.button("💾 Guardar Configuración"):
         num_nodos,
         distancia_ref,
         tolerancia
+    )
+
+    save_history(
+        "Sistema",
+        "Configuración actualizada",
+        f"Nodos={num_nodos}, Ref={distancia_ref}, Tol={tolerancia}"
     )
 
     st.sidebar.success(
@@ -155,4 +164,36 @@ Diagnóstico preliminar:
 Existe al menos un nodo fuera de servicio.
 """
 
-    st.success(respuesta)
+    st.success(respuesta)   
+    
+
+st.divider()
+
+st.header("📜 Historial del Sistema")
+
+history = get_history()
+
+if history:
+
+    import pandas as pd
+
+    df = pd.DataFrame(
+        history,
+        columns=[
+            "Fecha",
+            "Agente",
+            "Evento",
+            "Resultado"
+        ]
+    )
+
+    st.dataframe(
+        df,
+        use_container_width=True
+    )
+
+else:
+
+    st.info(
+        "No existen registros todavía."
+    )

@@ -44,6 +44,16 @@ CREATE TABLE IF NOT EXISTS inferencias(
 )
 """)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS historial(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    agente TEXT,
+    evento TEXT,
+    resultado TEXT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+""")
+
 conn.commit()
 conn.close()
 
