@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from agents.connectivity_agent import ConnectivityAgent
+
 from database.db import (
     save_configuration,
     get_configuration,
@@ -80,6 +82,17 @@ if st.sidebar.button("💾 Guardar Configuración"):
     st.sidebar.success(
         "Configuración guardada"
     )
+
+# -----------------------------------
+# Agente 1 - Conectividad
+# -----------------------------------
+
+agent1 = ConnectivityAgent()
+
+connectivity = agent1.verify_nodes(num_nodos)
+
+connected_nodes = connectivity["connected"]
+missing_nodes = connectivity["missing"]
 # -----------------------------------
 # Estado General
 # -----------------------------------
@@ -95,7 +108,7 @@ with col1:
 with col2:
     st.metric(
         "Nodos Conectados",
-        2
+        connected_nodes
     )
 
 with col3:
@@ -106,22 +119,42 @@ with col3:
 
 st.divider()
 
+st.header("🤖 Estado de Agentes")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+
+    if missing_nodes == 0:
+
+        st.success("✅ Agente 1 - Conectividad")
+
+    else:
+
+        st.warning("⚠️ Agente 1 - Conectividad")
+
+with col2:
+
+    st.info("⏳ Agente 2 - Localización")
+
+with col3:
+
+    st.info("⏳ Agente 3 - Diagnóstico")
 # -----------------------------------
 # Estado de la red
 # -----------------------------------
 
 st.header("🌐 Estado de la Red")
 
-col1, col2, col3 = st.columns(3)
+for i in range(1, num_nodos + 1):
 
-with col1:
-    st.success("🤖 Nodo 1 - Conectado")
+    if i <= connected_nodes:
 
-with col2:
-    st.success("🤖 Nodo 2 - Conectado")
+        st.success(f"🤖 Nodo {i} - Conectado")
 
-with col3:
-    st.error("❌ Nodo 3 - Desconectado")
+    else:
+
+        st.error(f"❌ Nodo {i} - Desconectado")
 
 st.divider()
 
@@ -131,15 +164,31 @@ st.divider()
 
 st.header("🧠 Diagnóstico Actual")
 
-st.info("""
-Agente 1 detectó 2 de 3 nodos conectados.
+if missing_nodes == 0:
 
-Nodo 3 no responde.
+    st.success(
+        f"Todos los nodos esperados ({num_nodos}) están conectados."
+    )
 
-Se recomienda verificar alimentación o comunicación.
-""")
+else:
+
+    st.warning(
+        f"Se detectaron {connected_nodes} de {num_nodos} nodos. "
+        f"Faltan {missing_nodes} nodo(s)."
+    )
 
 st.divider()
+
+
+if st.button("🔍 Verificar Nodos"):
+
+    save_history(
+        "Agente 1",
+        "Verificación de conectividad",
+        f"{connected_nodes}/{num_nodos} nodos detectados"
+    )
+
+    st.success("Verificación registrada")
 
 # -----------------------------------
 # ChatBot
@@ -153,18 +202,47 @@ pregunta = st.text_input(
 
 if pregunta:
 
-    respuesta = f"""
-Estado actual:
+    pregunta = pregunta.lower()
 
-• Nodos esperados: {num_nodos}
-• Nodos conectados: 2
-• Nodo desconectado: Nodo 3
+    if "estado" in pregunta:
 
-Diagnóstico preliminar:
-Existe al menos un nodo fuera de servicio.
+        respuesta = f"""
+Nodos esperados: {num_nodos}
+
+Nodos conectados: {connected_nodes}
+
+Nodos faltantes: {missing_nodes}
 """
 
-    st.success(respuesta)   
+    elif "distancia" in pregunta:
+
+        respuesta = f"""
+La distancia de referencia actual es:
+
+{distancia_ref} metros
+"""
+
+    elif "agente 1" in pregunta:
+
+        respuesta = f"""
+Agente 1 detectó:
+
+{connected_nodes} de {num_nodos} nodos.
+"""
+
+    else:
+
+        respuesta = """
+No entendí la consulta.
+
+Prueba:
+
+- estado
+- distancia
+- agente 1
+"""
+
+    st.success(respuesta)
     
 
 st.divider()
