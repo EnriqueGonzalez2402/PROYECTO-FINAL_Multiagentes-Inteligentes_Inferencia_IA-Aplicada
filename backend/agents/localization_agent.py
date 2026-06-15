@@ -1,10 +1,15 @@
-class InferenceAgent:
+class LocalizationAgent:
 
-```
-def evaluate(self, data):
+    SPEED_SOUND = 343.0
 
-    if data.get("tof", 0) > 100:
-        return "Distancia excesiva"
+    def calculate_distance(self, rtt):
 
-    return "Sistema estable"
-```
+        tof = rtt / 2
+
+        distance = tof * self.SPEED_SOUND
+
+        return {
+            "rtt": rtt,
+            "tof": tof,
+            "distance": round(distance, 3)
+        }

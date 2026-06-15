@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 
 from agents.connectivity_agent import ConnectivityAgent
+from agents.localization_agent import LocalizationAgent
+from agents.diagnosis_agent import DiagnosisAgent
 
 from database.db import (
     save_configuration,
@@ -189,6 +191,50 @@ if st.button("🔍 Verificar Nodos"):
     )
 
     st.success("Verificación registrada")
+
+
+st.divider()
+
+st.header("📡 Agente 2 - Localización Acústica")
+rtt = st.number_input(
+    "RTT (segundos)",
+    min_value=0.001,
+    value=0.012,
+    step=0.001
+)
+agent2 = LocalizationAgent()
+measurement = agent2.calculate_distance(rtt)
+
+st.metric(
+    "ToF",
+    f"{measurement['tof']:.6f} s"
+)
+
+st.metric(
+    "Distancia",
+    f"{measurement['distance']} m"
+)
+
+st.header("🧠 Agente 3 - Diagnóstico")
+
+agent3 = DiagnosisAgent()
+diagnosis = agent3.validate_distance(
+    measurement["distance"],
+    distancia_ref,
+    tolerancia
+)
+
+st.write(
+    f"Estado: {diagnosis['status']}"
+)
+
+st.write(
+    f"Error: {diagnosis['error']} m"
+)
+
+st.info(
+    diagnosis["explanation"]
+)
 
 # -----------------------------------
 # ChatBot
